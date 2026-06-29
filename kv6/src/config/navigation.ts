@@ -1,12 +1,35 @@
-import { Home, Users, Settings, Shield, Activity, CreditCard, Box, Terminal, FileText, Bell, Map, LayoutDashboard } from 'lucide-react';
-import type { Role } from '@/types/auth';
+import { 
+  LayoutDashboard, 
+  Building2, 
+  Users, 
+  Shield, 
+  FileText, 
+  BarChart3, 
+  Activity, 
+  CreditCard, 
+  Link, 
+  Bell, 
+  Settings, 
+  Database, 
+  Bot, 
+  User, 
+  CheckSquare, 
+  Calendar,
+  Lock,
+  GitBranch,
+  FolderKanban,
+  Tv,
+  ListTodo,
+  Terminal,
+  Server,
+  Globe,
+  Cpu
+} from 'lucide-react';
 
 export interface NavItem {
   title: string;
   href: string;
   icon: React.ElementType;
-  permissions?: string[];
-  roles?: Role[];
 }
 
 export interface NavGroup {
@@ -14,42 +37,149 @@ export interface NavGroup {
   items: NavItem[];
 }
 
-export const navigationConfig: NavGroup[] = [
+export const superAdminNavigation: NavGroup[] = [
   {
-    group: 'Dashboards',
+    group: 'Main Control',
     items: [
-      { title: 'Super Admin', href: '/dashboard/super-admin', icon: LayoutDashboard, roles: ['SUPER_ADMIN'] },
-      { title: 'Tenant Admin', href: '/dashboard/tenant-admin', icon: LayoutDashboard, roles: ['TENANT_ADMIN'] },
-      { title: 'Security', href: '/dashboard/security', icon: Shield, roles: ['SECURITY_ANALYST'] },
-      { title: 'Developer', href: '/dashboard/developer', icon: Terminal, roles: ['DEVELOPER'] },
-      { title: 'Employee', href: '/dashboard/employee', icon: Home, roles: ['EMPLOYEE'] },
+      { title: 'Dashboard', href: '/dashboard/super-admin', icon: LayoutDashboard },
+      { title: 'Tenants', href: '/super-admin/tenants', icon: Building2 },
+      { title: 'Users', href: '/users', icon: Users },
+      { title: 'Roles & Permissions', href: '/super-admin/roles', icon: Shield },
+      { title: 'Employees', href: '/employees', icon: Users },
     ]
   },
   {
-    group: 'Platform',
+    group: 'Analytics & Security',
     items: [
-      { title: 'Tenants', href: '/tenants', icon: Box, roles: ['SUPER_ADMIN'] },
-      { title: 'Users', href: '/users', icon: Users, permissions: ['users.read'] },
-      { title: 'Products', href: '/products', icon: Box, roles: ['SUPER_ADMIN', 'TENANT_ADMIN'] },
-      { title: 'Billing', href: '/billing', icon: CreditCard, permissions: ['billing.manage'] },
-      { title: 'Permissions', href: '/permissions', icon: Shield, roles: ['SUPER_ADMIN'] },
+      { title: 'Analytics', href: '/super-admin/analytics', icon: BarChart3 },
+      { title: 'System Monitoring', href: '/super-admin/system-monitoring', icon: Cpu },
+      { title: 'Audit Logs', href: '/super-admin/audit-logs', icon: Activity },
+      { title: 'Security Center', href: '/security', icon: Shield },
     ]
   },
   {
-    group: 'Monitoring & Security',
+    group: 'Billing & Provisioning',
     items: [
-      { title: 'Security Center', href: '/security-center', icon: Shield, roles: ['SUPER_ADMIN', 'SECURITY_ANALYST'] },
-      { title: 'Audit Logs', href: '/audit-logs', icon: FileText, roles: ['SUPER_ADMIN', 'SECURITY_ANALYST', 'TENANT_ADMIN'] },
-      { title: 'Infrastructure', href: '/infrastructure', icon: Activity, roles: ['SUPER_ADMIN', 'DEVELOPER'] },
-      { title: 'Threat Map', href: '/threat-map', icon: Map, roles: ['SECURITY_ANALYST'] },
-    ]
-  },
-  {
-    group: 'Settings',
-    items: [
-      { title: 'Global Settings', href: '/settings/global', icon: Settings, roles: ['SUPER_ADMIN'] },
-      { title: 'Tenant Settings', href: '/settings/tenant', icon: Settings, roles: ['TENANT_ADMIN'] },
+      { title: 'Subscriptions', href: '/super-admin/subscriptions', icon: CreditCard },
+      { title: 'Licenses', href: '/super-admin/licenses', icon: Lock },
+      { title: 'Integrations', href: '/integrations', icon: Link },
       { title: 'Notifications', href: '/notifications', icon: Bell },
+    ]
+  },
+  {
+    group: 'Global Settings',
+    items: [
+      { title: 'Global Settings', href: '/super-admin/settings', icon: Settings },
+      { title: 'Feature Toggles', href: '/super-admin/feature-toggles', icon: Tv },
+      { title: 'Maintenance Mode', href: '/super-admin/maintenance', icon: Lock },
+      { title: 'Database Monitor', href: '/super-admin/database-monitor', icon: Database },
+      { title: 'AI Assistant', href: '/super-admin/ai-assistant', icon: Bot },
+      { title: 'Profile', href: '/profile', icon: User },
     ]
   }
 ];
+
+export const tenantAdminNavigation: NavGroup[] = [
+  {
+    group: 'Organization Management',
+    items: [
+      { title: 'Dashboard', href: '/dashboard/tenant-admin', icon: LayoutDashboard },
+      { title: 'Organization', href: '/organizations', icon: Building2 },
+      { title: 'Departments', href: '/tenant/departments', icon: GitBranch },
+      { title: 'Teams', href: '/tenant/teams', icon: FolderKanban },
+      { title: 'Employees', href: '/employees', icon: Users },
+    ]
+  },
+  {
+    group: 'Workflows',
+    items: [
+      { title: 'Attendance', href: '/employees?tab=attendance', icon: Calendar },
+      { title: 'Leaves', href: '/tenant/leaves', icon: Calendar },
+      { title: 'Payroll', href: '/tenant/payroll', icon: CreditCard },
+      { title: 'Reports', href: '/reports', icon: FileText },
+    ]
+  },
+  {
+    group: 'Settings & Identity',
+    items: [
+      { title: 'Notifications', href: '/notifications', icon: Bell },
+      { title: 'Integrations', href: '/integrations', icon: Link },
+      { title: 'Security', href: '/security', icon: Shield },
+      { title: 'Settings', href: '/settings', icon: Settings },
+      { title: 'Profile', href: '/profile', icon: User },
+    ]
+  }
+];
+
+export const managerNavigation: NavGroup[] = [
+  {
+    group: 'Manager Console',
+    items: [
+      { title: 'Dashboard', href: '/manager/dashboard', icon: LayoutDashboard },
+      { title: 'My Team', href: '/manager/team', icon: Users },
+      { title: 'Attendance', href: '/manager/attendance', icon: Calendar },
+      { title: 'Approvals', href: '/manager/approvals', icon: CheckSquare },
+      { title: 'Tasks', href: '/manager/tasks', icon: ListTodo },
+      { title: 'Meetings', href: '/manager/meetings', icon: Calendar },
+      { title: 'Reports', href: '/manager/reports', icon: FileText },
+      { title: 'Notifications', href: '/manager/notifications', icon: Bell },
+      { title: 'Profile', href: '/manager/profile', icon: User },
+      { title: 'Settings', href: '/manager/settings', icon: Settings },
+    ]
+  }
+];
+
+export const employeeNavigation: NavGroup[] = [
+  {
+    group: 'Self Service',
+    items: [
+      { title: 'Dashboard', href: '/dashboard/employee', icon: LayoutDashboard },
+      { title: 'My Profile', href: '/profile', icon: User },
+      { title: 'Attendance', href: '/employees?tab=attendance', icon: Calendar },
+      { title: 'Leave Requests', href: '/employee/leaves', icon: Calendar },
+      { title: 'Documents', href: '/employee/documents', icon: FileText },
+      { title: 'Tasks', href: '/employee/tasks', icon: ListTodo },
+      { title: 'Meetings', href: '/employee/meetings', icon: Calendar },
+      { title: 'Notifications', href: '/notifications', icon: Bell },
+      { title: 'Settings', href: '/profile?tab=preferences', icon: Settings },
+    ]
+  }
+];
+
+export const developerNavigation: NavGroup[] = [
+  {
+    group: 'Developer Console',
+    items: [
+      { title: 'Developer Dashboard', href: '/dashboard/developer', icon: LayoutDashboard },
+      { title: 'API Keys', href: '/developer/api-keys', icon: Lock },
+      { title: 'Integrations', href: '/integrations', icon: Link },
+      { title: 'Webhooks', href: '/developer/webhooks', icon: Link },
+      { title: 'Logs', href: '/super-admin/audit-logs', icon: Terminal },
+      { title: 'Deployments', href: '/developer/deployments', icon: Server },
+      { title: 'Monitoring', href: '/developer/monitoring', icon: BarChart3 },
+      { title: 'Developer Settings', href: '/settings', icon: Settings },
+    ]
+  }
+];
+
+export const securityAdminNavigation: NavGroup[] = [
+  {
+    group: 'SOC Control',
+    items: [
+      { title: 'Security Dashboard', href: '/dashboard/security', icon: LayoutDashboard },
+      { title: 'Audit Logs', href: '/security/audit-logs', icon: Activity },
+      { title: 'Threat Monitoring', href: '/security/threats', icon: Shield },
+      { title: 'MFA Policies', href: '/security/mfa', icon: Lock },
+      { title: 'Sessions', href: '/security/sessions', icon: Calendar },
+      { title: 'IP Management', href: '/security/ip-management', icon: Database },
+      { title: 'Permissions', href: '/security/permissions', icon: Shield },
+      { title: 'Compliance Reports', href: '/security/compliance', icon: FileText },
+    ]
+  }
+];
+
+// Helper placeholders
+const ClockIconPlaceholder = Calendar;
+const DollarIconPlaceholder = CreditCard;
+const KeyIconPlaceholder = Lock;
+const ShieldAlertPlaceholder = Shield;
