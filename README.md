@@ -57,6 +57,38 @@ Built as a production-ready alternative to HR and Security suites like Workday, 
 
 ---
 
+## 📂 Project Directory Layout
+
+```
+📂 src/
+ ├── 📂 assets/          # Static public asset files
+ ├── 📂 components/      # UI components & system layouts
+ │    ├── 📂 navigation/ # Sidebars, Breadcrumbs controls
+ │    ├── 📂 permissions/# RBAC guards & auth guards
+ │    └── 📂 ui/         # Core shadcn primitives (button, input, etc.)
+ ├── 📂 config/          # Navigation role configs
+ ├── 📂 hooks/           # Redux hooks
+ ├── 📂 layouts/         # Layout modules (AppLayout, AuthLayout)
+ ├── 📂 lib/             # Utility methods
+ ├── 📂 pages/           # Custom role views
+ │    ├── 📂 authentication/ # Login, MFA screens
+ │    ├── 📂 dashboards/     # Dashboards selectors (SuperAdmin, Manager, etc.)
+ │    ├── 📂 developer/      # API Keys & webhooks console
+ │    ├── 📂 employee/       # Leave requests & personal documents
+ │    ├── 📂 manager/        # Team roster approvals & task logs
+ │    ├── 📂 super-admin/    # Tenant directory lists & monitoring meters
+ │    ├── 📂 tenant-admin/   # Budget departments & payroll logs
+ │    ├── 📂 security-admin/ # Threat monitoring & compliance checklists
+ │    ├── 📂 users/          # Global user directory CRUD
+ │    ├── 📂 organizations/  # Org visual hierarchies
+ │    └── 📂 reports/        # Custom report builders
+ ├── 📂 services/        # Mock data services
+ ├── 📂 store/           # Redux slices
+ └── 📂 types/           # Interface definitions
+```
+
+---
+
 ## 🔑 Demo Access Credentials
 
 To log in and experience each isolated role workflow, use the following credentials:
