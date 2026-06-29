@@ -1,4 +1,13 @@
-export type Role = 'SUPER_ADMIN' | 'TENANT_ADMIN' | 'SECURITY_ANALYST' | 'DEVELOPER' | 'EMPLOYEE';
+export type Role = 'SUPER_ADMIN' | 'TENANT_ADMIN' | 'SECURITY_ANALYST' | 'DEVELOPER' | 'EMPLOYEE' | 'MANAGER';
+
+export enum UserRole {
+  SUPER_ADMIN = 'SUPER_ADMIN',
+  TENANT_ADMIN = 'TENANT_ADMIN',
+  MANAGER = 'MANAGER',
+  EMPLOYEE = 'EMPLOYEE',
+  DEVELOPER = 'DEVELOPER',
+  SECURITY_ADMIN = 'SECURITY_ANALYST'
+}
 
 export interface User {
   id: string;

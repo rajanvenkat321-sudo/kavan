@@ -21,6 +21,7 @@ const rolePermissions: Record<Role, string[]> = {
   SECURITY_ANALYST: ['security.read', 'security.write', 'audit.logs'],
   DEVELOPER: ['api.read', 'deployments.manage', 'logs.read'],
   EMPLOYEE: ['dashboard.view', 'profile.edit'],
+  MANAGER: ['dashboard.view', 'profile.edit', 'team.manage', 'approvals.write'],
 };
 
 export const RoleSwitcher: React.FC = () => {
