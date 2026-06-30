@@ -1,32 +1,172 @@
-# React + TypeScript + Vite
+# KAVAN v6.0 — Enterprise Product Ecosystem Platform
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+<p align="center">
+Enterprise Cloud Operating System • Multi-Tenant SaaS • Identity & Access Management
+</p>
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+# 🚀 Overview
 
-## React Compiler
+KAVAN is an enterprise-grade product ecosystem platform that combines:
+- **Identity & Access Management (IAM)**: Decoupled Zero-Trust authentication using asymmetric RS256 JWTs, TOTP Multi-Factor Authentication (MFA), and session tracking.
+- **Multi-Tenant Architecture**: Logical data isolation allowing multiple organizations (tenants) to run on the same platform securely.
+- **OAuth Login Integration**: Seamless, native sign-in using Google and Microsoft 365.
+- **Enterprise Operations**: Dashboards and analytics for Super Admins, Tenant Admins, Managers, Employees, Developers, and Security Admins.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the Oxlint configuration
+# 🏗 Repository Structure
 
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
-
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
+```text
+KAVAN/
+├── kv6/                        # Frontend React Application
+│   ├── src/                    # TypeScript Source code
+│   │   ├── features/           # Feature slices and OAuth configurations
+│   │   ├── components/         # Reusable Shadcn components
+│   │   ├── pages/              # Role-specific dashboards & login views
+│   │   └── store/              # Redux Toolkit store & auth slice
+│   ├── public/                 # Static assets
+│   └── package.json            # Frontend package definitions
+│
+├── kavan-backend/              # Backend Services Application
+│   ├── backend/
+│   │   ├── apps/               # Modular Django apps (auth, tenants, mfa, etc.)
+│   │   ├── config/             # Settings, routers, and Celery setup
+│   │   ├── common/             # Clean Architecture repository & service layers
+│   │   └── manage.py           # Django command utility
+│   └── requirements.txt        # Backend package definitions
+│
+└── README.md                   # Unified Platform Documentation
 ```
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+---
+
+# 🎯 Enterprise Features
+
+### Authentication & Access Control
+- **JWT Authentication**: Asymmetric RS256 signature tokens.
+- **Refresh Token Rotation**: Automatic token rotation and invalidation on reuse.
+- **MFA (TOTP)**: Secure time-based one-time password challenge with backup codes.
+- **OAuth Integration**: Secure Sign-in with Google and Microsoft 365.
+- **Device & Session Tracking**: Active session verification, concurrent session limits, and manual revocation.
+- **Audit Logs**: Immutable auditing of security and administrative actions.
+
+### Role-Based Access Control (RBAC)
+- **Super Admin**: System configuration, tenant creation, maintenance mode, and global analytics.
+- **Tenant Admin**: Departments, teams, employees, payroll, and security settings.
+- **Manager**: Team dashboards, leave/expense approvals, and tasks.
+- **Employee**: Task management, profile updates, and leave requests.
+- **Developer**: API keys, webhooks, and deployment monitoring.
+- **Security Admin**: Threat monitoring, MFA policies, compliance reports, and audit logs.
+
+---
+
+# 🛠 Technology Stack
+
+### Frontend (`kv6/`)
+- **Core**: React 18, Vite, TypeScript
+- **State Management**: Redux Toolkit (RTK)
+- **Styling**: Tailwind CSS, Radix UI, Lucide Icons, Shadcn
+- **Authentication**: `@react-oauth/google`, `@azure/msal-react`, `@azure/msal-browser`
+- **Charts**: Recharts
+
+### Backend (`kavan-backend/`)
+- **Framework**: Django 5.x, Django REST Framework (DRF)
+- **Asynchronous Processing**: Celery, Redis Broker
+- **MFA Encryption**: Cryptography (Fernet)
+- **Token Signature**: PyJWT (RS256)
+- **Password Hashing**: Argon2-cffi
+- **Database**: SQLite (local development) / PostgreSQL (production)
+
+---
+
+# 🚀 Local Development Setup
+
+Ensure you have Node.js, Python 3.10+, and Redis 7+ installed on your host system.
+
+### 1. Backend Service Configuration
+
+Navigate to the backend project:
+```bash
+cd kavan-backend/backend
+```
+
+Create and activate a virtual environment:
+```bash
+python -m venv venv
+
+# Windows (PowerShell):
+.\venv\Scripts\activate
+# Linux/macOS:
+source venv/bin/activate
+```
+
+Install packages:
+```bash
+pip install -r requirements.txt django-debug-toolbar
+```
+
+Apply migrations:
+```bash
+python manage.py migrate --settings=config.settings.local
+```
+
+Seed the default development accounts:
+```bash
+python manage.py seed_db --settings=config.settings.local
+```
+This generates the following credentials:
+- **Super Admin**: `admin@kavan.com` / `Admin@123`
+- **Tenant Admin**: `tenant@kavan.com` / `Tenant@123`
+- **Manager**: `manager@kavan.com` / `Manager@123`
+- **Employee**: `employee@kavan.com` / `Employee@123`
+- **Developer**: `developer@kavan.com` / `Developer@123`
+- **Security Analyst**: `security@kavan.com` / `Security@123`
+
+Start the API server:
+```bash
+python manage.py runserver 8000 --settings=config.settings.local
+```
+
+---
+
+### 2. Frontend React Configuration
+
+Navigate to the frontend project:
+```bash
+cd kv6
+```
+
+Install NPM packages:
+```bash
+npm install
+```
+
+Configure `.env` credentials in `kv6/.env`:
+```env
+VITE_API_URL=http://localhost:8000/api/v1
+VITE_GOOGLE_CLIENT_ID=your_google_client_id
+VITE_MICROSOFT_CLIENT_ID=your_microsoft_client_id
+VITE_MICROSOFT_TENANT_ID=common
+```
+
+Start the Vite web application:
+```bash
+npm run dev
+```
+Open `http://localhost:5173/` in your browser.
+
+---
+
+## 🧪 Testing
+
+### Frontend Validation
+```bash
+npx tsc --noEmit
+```
+
+### Backend Test Suite
+```bash
+pytest --settings=config.settings.local
+```

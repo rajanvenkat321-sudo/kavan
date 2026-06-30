@@ -42,18 +42,40 @@ api.interceptors.response.use(
     if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
       
-      try {
-        store.dispatch(logout());
-        window.location.href = '/login';
-      } catch (refreshError) {
-        store.dispatch(logout());
-        window.location.href = '/login';
-        return Promise.reject(refreshError);
+      const stored = localStorage.getItem('kavan_auth');
+      const refreshToken = stored ? JSON.parse(stored).refreshToken : null;
+      
+      if (refreshToken) {
+        try {
+          const baseURL = import.meta.env.VITE_API_URL || 'http://localhost:8000/api/v1';
+          const refreshResponse = await axios.post(`${baseURL}/auth/refresh/`, {
+            refresh_token: refreshToken
+          });
+          
+          const payload = refreshResponse.data.data;
+          const newAccessToken = payload.accessToken || payload.access || payload.token;
+          const newRefreshToken = payload.refresh_token || payload.refresh;
+          
+          if (newAccessToken && newRefreshToken) {
+            // Update store and localStorage
+            const { updateTokens } = await import('../store/slices/authSlice');
+            store.dispatch(updateTokens({ accessToken: newAccessToken, refreshToken: newRefreshToken }));
+            
+            // Retry the original request
+            originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
+            return api(originalRequest);
+          }
+        } catch (refreshError) {
+          console.error('Failed to rotate refresh token:', refreshError);
+        }
       }
+      
+      // If no refresh token or refresh failed, log out
+      store.dispatch(logout());
+      window.location.href = '/login';
     }
     
     if (error.response?.status === 403) {
-      // Potentially redirect to unauthorized page or show a toast
       console.error('Access Denied: You do not have permission for this action.');
     }
 

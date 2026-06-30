@@ -44,7 +44,7 @@ export const RoleResolutionPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-background flex flex-col items-center justify-center relative overflow-hidden">
       <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-5 z-0" />
-      
+
       <div className="z-10 flex flex-col items-center animate-in fade-in zoom-in duration-700">
         <div className="w-20 h-20 bg-primary/10 rounded-2xl flex items-center justify-center mb-8 relative">
           <div className="absolute inset-0 border-4 border-primary/20 rounded-2xl animate-spin-slow" style={{ animationDuration: '3s' }} />

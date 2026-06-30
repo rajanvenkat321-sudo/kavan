@@ -9,6 +9,7 @@ const initialState: AuthState = persistedState ? JSON.parse(persistedState) : {
   permissions: [],
   role: null,
   accessToken: null,
+  refreshToken: null,
   isAuthenticated: false,
   isLoading: false,
 };
@@ -19,13 +20,14 @@ const authSlice = createSlice({
   reducers: {
     setCredentials: (
       state,
-      action: PayloadAction<{ user: User; tenant: Tenant | null; permissions: string[]; role: Role; accessToken: string }>
+      action: PayloadAction<{ user: User; tenant: Tenant | null; permissions: string[]; role: Role; accessToken: string; refreshToken: string }>
     ) => {
       state.user = action.payload.user;
       state.tenant = action.payload.tenant;
       state.permissions = action.payload.permissions;
       state.role = action.payload.role;
       state.accessToken = action.payload.accessToken;
+      state.refreshToken = action.payload.refreshToken;
       state.isAuthenticated = true;
       localStorage.setItem('kavan_auth', JSON.stringify({
         user: action.payload.user,
@@ -33,6 +35,7 @@ const authSlice = createSlice({
         permissions: action.payload.permissions,
         role: action.payload.role,
         accessToken: action.payload.accessToken,
+        refreshToken: action.payload.refreshToken,
         isAuthenticated: true,
         isLoading: false
       }));
@@ -43,6 +46,7 @@ const authSlice = createSlice({
       state.permissions = [];
       state.role = null;
       state.accessToken = null;
+      state.refreshToken = null;
       state.isAuthenticated = false;
       localStorage.removeItem('kavan_auth');
     },
@@ -57,9 +61,21 @@ const authSlice = createSlice({
           permissions: action.payload.permissions,
           role: action.payload.role,
           accessToken: state.accessToken,
+          refreshToken: state.refreshToken,
           isAuthenticated: true,
           isLoading: false
         }));
+      }
+    },
+    updateTokens: (state, action: PayloadAction<{ accessToken: string; refreshToken: string }>) => {
+      state.accessToken = action.payload.accessToken;
+      state.refreshToken = action.payload.refreshToken;
+      const stored = localStorage.getItem('kavan_auth');
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        parsed.accessToken = action.payload.accessToken;
+        parsed.refreshToken = action.payload.refreshToken;
+        localStorage.setItem('kavan_auth', JSON.stringify(parsed));
       }
     },
     setLoading: (state, action: PayloadAction<boolean>) => {
@@ -68,7 +84,7 @@ const authSlice = createSlice({
   },
 });
 
-export const { setCredentials, logout, switchRole, setLoading } = authSlice.actions;
+export const { setCredentials, logout, switchRole, updateTokens, setLoading } = authSlice.actions;
 
 export const selectCurrentUser = (state: { auth: AuthState }) => state.auth.user;
 export const selectCurrentTenant = (state: { auth: AuthState }) => state.auth.tenant;

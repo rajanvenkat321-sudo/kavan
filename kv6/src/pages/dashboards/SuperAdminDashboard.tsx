@@ -1,19 +1,30 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Users, Building, Cpu, HardDrive, AlertTriangle, ArrowUpRight } from 'lucide-react';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar } from 'recharts';
-
-const data = [
-  { name: 'Jan', revenue: 4000, tenants: 24 },
-  { name: 'Feb', revenue: 3000, tenants: 13 },
-  { name: 'Mar', revenue: 2000, tenants: 98 },
-  { name: 'Apr', revenue: 2780, tenants: 39 },
-  { name: 'May', revenue: 1890, tenants: 48 },
-  { name: 'Jun', revenue: 2390, tenants: 38 },
-  { name: 'Jul', revenue: 3490, tenants: 43 },
-];
+import { mockService } from '@/services/mockData';
 
 export const SuperAdminDashboard: React.FC = () => {
+  const [data, setData] = useState<any[]>([]);
+
+  useEffect(() => {
+    // Simulate fetching chart data
+    const fetchChartData = async () => {
+      // In a real app, this would call mockService.getRevenueData()
+      const chartData = [
+        { name: 'Jan', revenue: 4000, tenants: 24 },
+        { name: 'Feb', revenue: 3000, tenants: 13 },
+        { name: 'Mar', revenue: 2000, tenants: 98 },
+        { name: 'Apr', revenue: 2780, tenants: 39 },
+        { name: 'May', revenue: 1890, tenants: 48 },
+        { name: 'Jun', revenue: 2390, tenants: 38 },
+        { name: 'Jul', revenue: 3490, tenants: 43 },
+      ];
+      setData(chartData);
+    };
+    fetchChartData();
+  }, []);
+
   return (
     <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
       <div className="flex justify-between items-center">

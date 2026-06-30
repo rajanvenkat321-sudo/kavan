@@ -4,7 +4,7 @@ import { useAppSelector } from '@/hooks/redux';
 import { selectCurrentRole } from '@/store/slices/authSlice';
 import { getNavigationForRole } from '@/config/navigation';
 import { cn } from '@/lib/utils';
-import { Shield } from 'lucide-react';
+import { KavanLogo } from '@/components/ui/KavanLogo';
 
 export const Sidebar: React.FC = () => {
   const currentRole = useAppSelector(selectCurrentRole);
@@ -59,16 +59,11 @@ export const Sidebar: React.FC = () => {
 
   return (
     <div className={cn("w-64 h-screen bg-card border-r flex flex-col sticky top-0 animate-in slide-in-from-left-4 duration-500", roleStyle.border)}>
-      <div className="p-6 flex items-center gap-3 border-b">
-        <div className={cn("w-8 h-8 rounded-lg flex items-center justify-center shadow-lg transition-transform hover:scale-105", roleStyle.logoBg)}>
-          <Shield className="w-4 h-4 text-primary-foreground" />
-        </div>
-        <div className="flex flex-col">
-          <span className="font-bold text-lg tracking-tight">KAVAN</span>
-          <span className="text-[10px] text-muted-foreground uppercase font-mono tracking-wider -mt-1">
-            {currentRole?.replace('_', ' ') || 'Guest'}
-          </span>
-        </div>
+      <div className="p-6 border-b">
+        <KavanLogo size="md" showText={true} textClassName="text-foreground" />
+        <span className="text-[10px] text-muted-foreground uppercase font-mono tracking-wider ml-[42px] -mt-1.5 block">
+          {currentRole?.replace('_', ' ') || 'Guest'}
+        </span>
       </div>
 
       <div className="flex-1 overflow-y-auto py-6 px-3 space-y-6">

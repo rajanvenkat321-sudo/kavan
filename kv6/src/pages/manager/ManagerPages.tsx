@@ -23,6 +23,7 @@ import {
   FolderOpen
 } from 'lucide-react';
 import { toast } from 'sonner';
+import { KavanLogo } from '@/components/ui/KavanLogo';
 
 // 1. Team Page
 export const ManagerTeamPage: React.FC = () => {
@@ -336,21 +337,92 @@ export const ManagerNotificationsPage: React.FC = () => {
 
 // 8. Profile Page
 export const ManagerProfilePage: React.FC = () => {
+  const [firstName, setFirstName] = useState('Sarah');
+  const [lastName, setLastName] = useState('Connor');
+  const [email, setEmail] = useState('manager@kavan.com');
+
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
       <div>
         <h1 className="text-3xl font-bold tracking-tight">My Profile</h1>
-        <p className="text-muted-foreground">Manage details and work identity settings.</p>
+        <p className="text-muted-foreground mt-1">Configure your personal credentials and display preferences.</p>
       </div>
-      <Card className="glass-card">
-        <CardContent className="space-y-4 pt-6 max-w-lg">
-          <div className="space-y-1">
-            <Label>Email</Label>
-            <Input disabled defaultValue="manager@kavan.com" />
-          </div>
-          <Button onClick={() => toast.success('Profile details saved.')}>Save Profile</Button>
-        </CardContent>
-      </Card>
+
+      <div className="grid gap-6 md:grid-cols-3">
+        <Card className="glass-card md:col-span-2">
+          <CardHeader>
+            <CardTitle>Personal Details</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <form onSubmit={(e) => { e.preventDefault(); toast.success('Profile details saved.'); }} className="space-y-4">
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-1">
+                  <Label htmlFor="prof-first">First Name</Label>
+                  <Input 
+                    id="prof-first"
+                    value={firstName} 
+                    onChange={e => setFirstName(e.target.value)} 
+                  />
+                </div>
+                <div className="space-y-1">
+                  <Label htmlFor="prof-last">Last Name</Label>
+                  <Input 
+                    id="prof-last"
+                    value={lastName} 
+                    onChange={e => setLastName(e.target.value)} 
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-1">
+                <Label htmlFor="prof-email">Email Address</Label>
+                <Input 
+                  id="prof-email"
+                  type="email"
+                  value={email} 
+                  onChange={e => setEmail(e.target.value)} 
+                />
+              </div>
+
+              <Button type="submit">
+                Save Profile
+              </Button>
+            </form>
+          </CardContent>
+        </Card>
+
+        <Card className="glass-card md:col-span-1 overflow-hidden relative border-primary/20">
+          <div className="absolute -right-16 -top-16 w-32 h-32 bg-primary/10 rounded-full blur-2xl" />
+          <div className="absolute -left-16 -bottom-16 w-32 h-32 bg-[#ef4444]/10 rounded-full blur-2xl" />
+          
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm font-semibold tracking-wider text-muted-foreground uppercase">KAVAN Enterprise Profile Card</CardTitle>
+          </CardHeader>
+          <CardContent className="flex flex-col items-center relative z-10 pt-4">
+            <div className="relative mb-4 group cursor-pointer" onClick={() => toast.success('Avatar image uploaded.')}>
+              <div className="absolute inset-0 bg-gradient-to-tr from-[#ef4444] to-[#b91c1c] rounded-full animate-pulse opacity-50 blur-sm group-hover:opacity-75 transition-opacity" />
+              <div className="w-24 h-24 rounded-full p-1 bg-gradient-to-tr from-[#ef4444] to-[#b91c1c] relative z-10">
+                <div className="w-full h-full rounded-full bg-card flex items-center justify-center text-foreground font-bold text-3xl border border-background shadow-inner">
+                  {firstName?.[0]}{lastName?.[0]}
+                </div>
+              </div>
+            </div>
+            
+            <div className="flex items-center gap-1.5 mb-1 mt-2">
+              <KavanLogo size={16} />
+              <span className="font-extrabold text-lg tracking-tight">{firstName} {lastName}</span>
+            </div>
+            
+            <p className="text-xs font-mono bg-primary/10 text-primary border border-primary/20 px-2 py-0.5 rounded-full uppercase tracking-wider mb-4">
+              MANAGER
+            </p>
+            
+            <p className="text-[10px] text-muted-foreground text-center mb-6 max-w-[180px]">
+              Authorized Manager on the KAVAN Enterprise Ecosystem.
+            </p>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 };

@@ -31,6 +31,7 @@ export interface AuthState {
   permissions: string[];
   role: Role | null;
   accessToken: string | null;
+  refreshToken: string | null;
   isAuthenticated: boolean;
   isLoading: boolean;
 }

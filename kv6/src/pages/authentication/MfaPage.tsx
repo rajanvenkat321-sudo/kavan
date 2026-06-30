@@ -15,7 +15,7 @@ export const MfaPage: React.FC = () => {
   const location = useLocation();
   const dispatch = useAppDispatch();
   const email = location.state?.email;
-  
+
   const [code, setCode] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
@@ -26,7 +26,7 @@ export const MfaPage: React.FC = () => {
   const handleVerify = async (e: React.FormEvent) => {
     e.preventDefault();
     if (code.length < 6) return;
-    
+
     setIsLoading(true);
     try {
       const data = await authService.verifyMfa(code, email);
@@ -36,14 +36,15 @@ export const MfaPage: React.FC = () => {
         permissions: data.permissions,
         role: data.user.role,
         accessToken: data.token,
+        refreshToken: data.refreshToken,
       }));
-      
+
       toast.success('Authentication successful');
-      
+
       // Navigate to Role Resolution (or directly to dashboard if we want)
       navigate('/role-resolution', { replace: true });
-    } catch (error) {
-      toast.error('Invalid MFA code. Use 123456 for demo.');
+    } catch (error: any) {
+      toast.error(error.message || 'Invalid MFA code.');
     } finally {
       setIsLoading(false);
     }
@@ -75,11 +76,11 @@ export const MfaPage: React.FC = () => {
             />
             <p className="text-xs text-muted-foreground mt-2">Hint: Use 123456</p>
           </div>
-          
+
           <Button className="w-full h-12 text-lg shadow-lg" type="submit" disabled={isLoading || code.length < 6}>
             {isLoading ? <Loader2 className="mr-2 h-5 w-5 animate-spin" /> : 'Verify Device'}
           </Button>
-          
+
           <div className="text-center">
             <Button variant="link" className="text-sm text-muted-foreground" onClick={() => navigate('/login')}>
               Return to Login
